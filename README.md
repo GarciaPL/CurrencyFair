@@ -183,3 +183,6 @@ Code released under the MIT License (MIT). Docs released under Creative Commons.
 - [Apache JMeter](http://jmeter.apache.org)
 - [Twitter Bootstrap](http://getbootstrap.com)
 - [Highcharts](http://www.highcharts.com)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/GarciaPL/currencyfair/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
