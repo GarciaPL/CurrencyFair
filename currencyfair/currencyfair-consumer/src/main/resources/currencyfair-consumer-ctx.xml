@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:beans="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration
+       http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/amqp
+       http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:annotation-config/>
+
+    <context:component-scan base-package="pl.garciapl.currencyfair.service.config"/>
+
+    <!-- Fix for IntelliJ 13.1 https://youtrack.jetbrains.com/issue/IDEA-123964 -->
+    <context:component-scan base-package="org.springframework.web.socket.config"/>
+
+    <context:property-placeholder ignore-unresolvable="false" location="classpath*:currencyfair.properties"/>
+
+    <util:properties id="propSource" location="classpath:currencyfair.properties"/>
+
+    <beans:annotation-config/>
+    <int:annotation-config/>
+
+    <bean id="gson" class="com.google.gson.Gson" lazy-init="false"/>
+
+    <rabbit:connection-factory id="connectionFactory" username="${rabbitMQUsername}" password="${rabbitMQPassword}"
+                               port="${rabbitMQPort}" host="${rabbitMQHost}"
+                               channel-cache-size="${rabbitMQChannelCache}"/>
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <rabbit:queue id="request.queue" name="${rabbitMQQueueName}" auto-delete="${rabbitMQAutoDelete}"
+                  durable="${rabbitMQDurable}"/>
+
+    <int:chain id="fromRabbitTransformer" input-channel="rabbitReceiver" output-channel="rabbitReceiverJson">
+        <int:json-to-object-transformer type="pl.garciapl.currencyfair.service.domain.queue.Payload"/>
+    </int:chain>
+
+    <bean id="queueListener" class="pl.garciapl.currencyfair.service.listener.QueueListener"/>
+
+    <rabbit:listener-container id="listenerContainer" connection-factory="connectionFactory">
+        <rabbit:listener ref="queueListener" queues="${rabbitMQQueueName}"/>
+    </rabbit:listener-container>
+
+    <int:channel id="rabbitReceiver"/>
+    <int:channel id="rabbitReceiverJson"/>
+    <int:channel id="rabbitErrorChannel"/>
+
+    <int-amqp:inbound-gateway id="inboundGateway" request-channel="rabbitReceiver" queue-names="${rabbitMQQueueName}"
+                              connection-factory="connectionFactory"
+                              concurrent-consumers="${rabbitMQConcurrentConsumers}"/>
+
+    <int:service-activator input-channel="rabbitReceiverJson" ref="queueListener" method="onMessagePayload"/>
+
+    <bean id="dataProcessor" class="pl.garciapl.currencyfair.service.processor.DataProcessor"/>
+
+    <bean id="graphBroker" class="pl.garciapl.currencyfair.service.broadcaster.GraphBrokerImpl"/>
+
+    <bean id="ecbRates" class="pl.garciapl.currencyfair.service.ecb.ECBRates" init-method="fetchECBRates"/>
+
+</beans>

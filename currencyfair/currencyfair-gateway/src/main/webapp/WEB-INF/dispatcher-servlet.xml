@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <context:annotation-config/>
+    <context:spring-configured/>
+    <context:component-scan base-package="pl.garciapl.currencyfair"/>
+
+    <mvc:annotation-driven/>
+    <mvc:default-servlet-handler/>
+
+    <util:properties id="propSource" location="classpath:currencyfair.properties"/>
+
+    <!-- Enable the default documentation controller-->
+    <context:component-scan base-package="com.mangofactory.swagger.controllers"/>
+
+    <!-- Pick up the bundled spring config-->
+    <context:component-scan base-package="com.mangofactory.swagger.configuration"/>
+
+    <bean id="jacksonMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="jacksonMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+</beans>

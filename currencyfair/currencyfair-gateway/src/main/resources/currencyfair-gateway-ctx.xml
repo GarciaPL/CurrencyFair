@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder ignore-unresolvable="false" location="classpath*:currencyfair.properties"/>
+
+    <bean id="gson" class="com.google.gson.Gson" lazy-init="false"/>
+
+    <rabbit:connection-factory id="connectionFactory" username="${rabbitMQUsername}" password="${rabbitMQPassword}"
+                               port="${rabbitMQPort}" host="${rabbitMQHost}"
+                               channel-cache-size="${rabbitMQChannelCache}"/>
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" routing-key="${rabbitMQRoutingKey}"/>
+
+    <rabbit:queue id="request.queue" name="${rabbitMQQueueName}" auto-delete="${rabbitMQAutoDelete}"
+                  durable="${rabbitMQDurable}"/>
+
+    <rabbit:topic-exchange id="exchange" name="currencyfairExchange">
+        <rabbit:bindings>
+            <rabbit:binding queue="request.queue" pattern="currencyfair.*"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <bean id="jsonConverter"
+          class="org.springframework.messaging.converter.MappingJackson2MessageConverter"/>
+
+    <int:channel id="rabbitSender" message-converter="jsonConverter"/>
+
+    <int-amqp:outbound-gateway id="outboundGateway" request-channel="rabbitSender" amqp-template="rabbitTemplate"
+                               exchange-name="currencyfairExchange" routing-key="${rabbitMQRoutingKey}"
+                               requires-reply="false"/>
+
+</beans>

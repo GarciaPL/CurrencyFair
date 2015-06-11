@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>pl.garciapl.currencyfair</groupId>
+    <artifactId>currencyfairdemo</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <url>https://github.com/GarciaPL/CurrencyFair</url>
+    <description>CurrencyFair</description>
+
+    <modules>
+        <module>currencyfair-gateway</module>
+        <module>currencyfair-consumer</module>
+    </modules>
+
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>JBoss repository</id>-->
+            <!--<url>http://repository.jboss.org/nexus/content/groups/public/</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>sonatype-snapshot</id>-->
+            <!--<url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.7</java.version>
+        <spring.version>4.0.1.RELEASE</spring.version>
+        <spring.integration.core.version>4.1.0.RELEASE</spring.integration.core.version>
+        <spring.integration.amqp.version>4.1.0.RELEASE</spring.integration.amqp.version>
+        <spring.integration.stream.version>4.1.0.RELEASE</spring.integration.stream.version>
+        <spring.security.core.version>4.0.0.RELEASE</spring.security.core.version>
+        <spring.security.web.version>4.0.0.RELEASE</spring.security.web.version>
+        <spring.security.config.version>4.0.0.RELEASE</spring.security.config.version>
+        <spring.security.taglibs.version>4.0.0.RELEASE</spring.security.taglibs.version>
+        <spring.security.messaging.version>4.0.0.RELEASE</spring.security.messaging.version>
+        <spring.messaging.version>4.0.1.RELEASE</spring.messaging.version>
+        <spring.websocket.version>4.0.1.RELEASE</spring.websocket.version>
+        <spring.amqp.version>1.4.5.RELEASE</spring.amqp.version>
+        <spring.rabbitmq.version>1.4.5.RELEASE</spring.rabbitmq.version>
+        <spring.erlang.version>1.4.5.RELEASE</spring.erlang.version>
+        <aspectj.version>1.8.5</aspectj.version>
+        <aspectj.weaver.version>1.8.5</aspectj.weaver.version>
+        <unirest.version>1.4.5</unirest.version>
+        <gson.version>2.2.4</gson.version>
+        <guava.version>18.0</guava.version>
+        <joda.money.version>0.10.0</joda.money.version>
+        <joda.time.version>2.7</joda.time.version>
+        <swagger.version>0.8.8</swagger.version>
+        <junit.version>4.10</junit.version>
+        <mockito.version>1.9.5</mockito.version>
+        <hamcrest.version>1.3</hamcrest.version>
+        <slf4j.version>1.7.8</slf4j.version>
+        <apache.commons.logging>1.2</apache.commons.logging>
+        <jstl.version>1.2</jstl.version>
+        <servlet.version>3.1.0</servlet.version>
+        <javax.el-api.version>3.0.0</javax.el-api.version>
+        <jackson.core.version>2.5.0</jackson.core.version>
+        <jackson.databind.version>2.5.0</jackson.databind.version>
+        <jackson.annotations.version>2.5.0</jackson.annotations.version>
+        <jackson.mapper.asl.version>1.9.10</jackson.mapper.asl.version>
+    </properties>
+
+</project>

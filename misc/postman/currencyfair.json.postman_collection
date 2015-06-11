@@ -1,0 +1,40 @@
+{
+	"id": "761c7453-ce28-a530-5357-c6d47e05bad9",
+	"name": "currencyfair",
+	"description": "",
+	"order": [
+		"cc4c9350-6494-d81f-72fd-d22b301c8dda"
+	],
+	"folders": [],
+	"timestamp": 1431872149864,
+	"synced": false,
+	"owner": 0,
+	"sharedWithTeam": false,
+	"subscribed": false,
+	"remoteLink": "",
+	"public": false,
+	"write": true,
+	"requests": [
+		{
+			"id": "cc4c9350-6494-d81f-72fd-d22b301c8dda",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost:8080/currencyfair-gateway/endpoint",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1433613162293,
+			"name": "currencyfair-gateway",
+			"description": "",
+			"collectionId": "761c7453-ce28-a530-5357-c6d47e05bad9",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\"userId\": \"134256\", \"currencyFrom\": \"EUR\", \"currencyTo\": \"GBP\", \"amountSell\": 1000, \"amountBuy\": 747.10, \"rate\": 0.7471, \"timePlaced\" : \"24-JAN-15 10:27:44\", \"originatingCountry\" : \"FR\"}"
+		}
+	]
+}
