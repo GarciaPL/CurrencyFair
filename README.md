@@ -186,3 +186,4 @@ Code released under the MIT License (MIT). Docs released under Creative Commons.
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/GarciaPL/currencyfair/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
+[![ghit.me](https://ghit.me/badge.svg?repo=GarciaPL/CurrencyFair)](https://ghit.me/repo/GarciaPL/CurrencyFair)
